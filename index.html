@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JornadaFit</title>
+
+    <!-- Ícone e Manifest -->
+    <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#030712" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos -->
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #030712; /* bg-gray-950 */
+        overflow: hidden;
+      }
+      #root {
+        height: 100vh;
+        overflow-y: auto;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(17, 24, 39, 0.5);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #374151;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #4b5563;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .aurora-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        opacity: 0.2;
+        background: #030712;
+      }
+      .aurora-bg::before,
+      .aurora-bg::after {
+        content: "";
+        position: absolute;
+        filter: blur(80px);
+        animation: animate-aurora 15s infinite linear;
+      }
+      .aurora-bg::before {
+        background: radial-gradient(circle, #3b82f6, transparent 60%);
+        width: 400px;
+        height: 400px;
+        top: 10%;
+        left: 20%;
+      }
+      .aurora-bg::after {
+        background: radial-gradient(circle, #6d28d9, transparent 60%);
+        width: 300px;
+        height: 300px;
+        top: 60%;
+        left: 70%;
+        animation-delay: -7s;
+      }
+      @keyframes animate-aurora {
+        0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+        25% { transform: translateY(-40px) translateX(60px) rotate(90deg); }
+        50% { transform: translateY(20px) translateX(-30px) rotate(180deg); }
+        75% { transform: translateY(-60px) translateX(40px) rotate(270deg); }
+      }
+    </style>
+
+    <!-- Importmap (AI Studio) -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0",
+        "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.0"
+      }
+    }
+    </script>
+
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+
+  <body>
+    <div class="aurora-bg"></div>
+    <div id="root"></div>
+
+    <!-- Entrada principal do app -->
+    <script type="module" src="/index.tsx"></script>
+
+    <!-- Registro do Service Worker -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          // Caminho RELATIVO para evitar erro de origem diferente no AI Studio
+          const swPath = "./sw.js";
+
+          navigator.serviceWorker
+            .register(swPath)
+            .then((registration) => {
+              console.log("✅ Service Worker registrado:", registration.scope);
+            })
+            .catch((err) => {
+              console.error("❌ Erro ao registrar Service Worker:", err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
